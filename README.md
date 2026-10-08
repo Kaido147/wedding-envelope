@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kian & Trisha — wedding invitation
 
-## Getting Started
+A responsive static invitation built with Next.js, React, TypeScript, and Tailwind CSS.
 
-First, run the development server:
+## Local preview
 
-```bash
+```sh
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. Check the project with `npm run lint` and `npm run build`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Change the photographs and wedding details
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All wedding text, dates, entourage names, contacts, and photograph references are in `app/wedding-content.ts`.
 
-## Learn More
+1. Place your photographs in `public/photos/` (create this folder if needed).
+2. Change `photos.portrait.src` from `null` to `/photos/couple.jpg`.
+3. Change `photos.story.src` from `null` to `/photos/story.jpg`.
+4. Update the alt text to describe each photograph. Adjust `position` (for example, `center 30%`) if the crop needs repositioning.
 
-To learn more about Next.js, take a look at the following resources:
+Both photographs use a fixed 4:5 container. Real photographs replace the neutral placeholders without changing the layout. Use local image paths from the public directory.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Palette, typography, spacing, and responsive styles are in `app/globals.css`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Current phase
 
-## Deploy on Vercel
+Navigation, story expansion, entourage disclosures, FAQs, and companion controls work. RSVP submission is intentionally disabled; nothing is saved or emailed. The confirmed guest list is an empty layout, with no fabricated guests. The envelope entrance and live RSVP integration are reserved for a later phase.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Botanical stationery design
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The invitation uses calligraphy names, original rose engraving, textured paper edges, ivory photograph mats, and a burgundy K&T seal. Photograph and decoration references remain together in `app/wedding-content.ts`.
+
+CSS entrances and one-time section reveals respect reduced-motion preferences. Content is visible without JavaScript, and native story, FAQ, entourage, and mobile navigation disclosures remain usable. Companion add/remove controls require JavaScript.
+
+Artwork prompts, saved paths, design timing, and verification notes are in [docs/design-assets.md](docs/design-assets.md).
