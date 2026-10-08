@@ -2,6 +2,8 @@
 
 import { useId, useRef, useState } from "react";
 
+import { Reveal } from "./reveal";
+
 export function RsvpPreview({ deadline }: { deadline: string }) {
   const prefix = useId();
   const nextId = useRef(0);
@@ -21,7 +23,7 @@ export function RsvpPreview({ deadline }: { deadline: string }) {
 
   return (
     <div className="rsvp-layout">
-      <form className="rsvp-form paper-card" onSubmit={(event) => event.preventDefault()} aria-label="Attendance confirmation" aria-describedby={`${prefix}-notice`}>
+      <Reveal as="form" variant="fade" order={1} className="rsvp-form paper-card" onSubmit={(event) => event.preventDefault()} aria-label="Attendance confirmation" aria-describedby={`${prefix}-notice`}>
         <div className="form-heading">
           <span className="eyebrow">A seat at our table</span>
           <h3>We hope you can join us.</h3>
@@ -57,8 +59,8 @@ export function RsvpPreview({ deadline }: { deadline: string }) {
         </button>
         <p className="rsvp-notice" id={`${prefix}-notice`}>Online confirmation will be available here soon. For now, please contact us to confirm your attendance.</p>
         <button type="submit" className="button button--disabled" disabled>Confirm attendance <span aria-hidden="true">↗</span></button>
-      </form>
-      <aside className="guest-list paper-card" aria-labelledby="guest-list-title">
+      </Reveal>
+      <Reveal as="aside" variant="fade" order={2} className="guest-list paper-card" aria-labelledby="guest-list-title">
         <span className="eyebrow">Celebrating together</span>
         <h3 id="guest-list-title">Our guests</h3>
         <p>Looking forward to sharing this day with you.</p>
@@ -68,7 +70,7 @@ export function RsvpPreview({ deadline }: { deadline: string }) {
           <p>Confirmed guests will appear here.</p>
           <span>A celebration made special by you.</span>
         </div>
-      </aside>
+      </Reveal>
     </div>
   );
 }

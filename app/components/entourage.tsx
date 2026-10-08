@@ -2,6 +2,8 @@
 
 import { useSyncExternalStore } from "react";
 
+import { Reveal } from "./reveal";
+
 const desktopQuery = "(min-width: 768px)";
 function subscribe(callback: () => void) {
   const query = window.matchMedia(desktopQuery);
@@ -21,16 +23,18 @@ export function Entourage({ groups }: {
   const desktop = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   return (
     <div className="entourage-grid">
-      {groups.map((group) => (
-        <details className="entourage-group" key={group.role} open={desktop}>
-          <summary>
-            <span>{group.role}</span>
-            <span className="disclosure-mark" aria-hidden="true" />
-          </summary>
-          <ul className={group.names.length > 2 ? "entourage-names entourage-names--long" : "entourage-names"}>
-            {group.names.map((name) => <li key={name}>{name}</li>)}
-          </ul>
-        </details>
+      {groups.map((group, index) => (
+        <Reveal variant="fade" order={index + 1} key={group.role}>
+          <details className="entourage-group" open={desktop}>
+            <summary>
+              <span>{group.role}</span>
+              <span className="disclosure-mark" aria-hidden="true" />
+            </summary>
+            <ul className={group.names.length > 2 ? "entourage-names entourage-names--long" : "entourage-names"}>
+              {group.names.map((name) => <li key={name}>{name}</li>)}
+            </ul>
+          </details>
+        </Reveal>
       ))}
     </div>
   );

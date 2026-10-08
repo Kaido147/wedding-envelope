@@ -1,40 +1,64 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type HTMLAttributes } from "react";
+import { invitationMotion } from "../motion-config";
 
-export function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
+type RevealProps = HTMLAttributes<HTMLElement> & {
+  as?: "div" | "span" | "article" | "li" | "form" | "aside";
+  variant?: "lift" | "fade";
+  order?: number;
+};
+
+export function Reveal({ children, className = "", as = "div", variant = "lift", order = 0, style, ...props }: RevealProps) {
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const element = ref.current;
-    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!element || motion.matches || !("IntersectionObserver" in window)) return;
+    const preference = window.matchMedia(invitationMotion.reducedQuery);
+    if (!element || preference.matches || !("IntersectionObserver" in window)) return;
 
     const rect = element.getBoundingClientRect();
-    // Content is visible in the HTML. Only prepare offscreen elements for motion.
-    if (rect.top < window.innerHeight) return;
+    // Never hide initial content, a restored scroll position, or an anchor target.
+    if (rect.top < window.innerHeight || element.contains(document.activeElement)) return;
     element.dataset.reveal = "pending";
+    let complete = false;
     const observer = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) show();
-    }, { threshold: 0.08, rootMargin: "0px 0px -24px 0px" });
+      if (entries.some((entry) => entry.isIntersecting)) show(false);
+    }, { threshold: 0, rootMargin: `0px 0px -${window.innerHeight * invitationMotion.entryInset}px 0px` });
 
-    function show() {
+    function show(immediate: boolean) {
       if (!element) return;
-      element.dataset.reveal = "shown";
+      if (!complete && element.dataset.reveal !== "immediate") element.dataset.reveal = immediate ? "immediate" : "shown";
+      if (immediate) {
+        element.dataset.reveal = "immediate";
+        element.querySelectorAll<HTMLElement>("[data-reveal]").forEach((child) => { child.dataset.reveal = "immediate"; });
+      }
+      complete = true;
       observer.disconnect();
     }
-    function onMotionChange() { if (motion.matches) show(); }
+    function onFocus() { show(true); }
+    function onPreference() { if (preference.matches) show(true); }
 
     observer.observe(element);
-    element.addEventListener("focusin", show);
-    motion.addEventListener("change", onMotionChange);
+    element.addEventListener("focusin", onFocus);
+    preference.addEventListener("change", onPreference);
     return () => {
       observer.disconnect();
-      element.removeEventListener("focusin", show);
-      motion.removeEventListener("change", onMotionChange);
+      element.removeEventListener("focusin", onFocus);
+      preference.removeEventListener("change", onPreference);
       delete element.dataset.reveal;
     };
   }, []);
 
-  return <div ref={ref} className={`reveal ${className}`}>{children}</div>;
+  const motionStyle = {
+    "--reveal-duration": `${invitationMotion.duration}ms`,
+    "--reveal-lift": `${variant === "fade" ? 0 : invitationMotion.lift}px`,
+    "--reveal-delay": `${Math.min(Math.max(order, 0) * invitationMotion.stagger, invitationMotion.maxDelay)}ms`,
+    "--reveal-easing": invitationMotion.easing,
+    ...style,
+  } as CSSProperties;
+
+  const Tag = as;
+  function assignRef(element: HTMLElement | null) { ref.current = element; }
+  return <Tag {...props} ref={assignRef} className={`reveal ${className}`} style={motionStyle}>{children}</Tag>;
 }

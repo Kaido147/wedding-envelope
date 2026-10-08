@@ -32,6 +32,8 @@ Navigation, story expansion, entourage disclosures, FAQs, and companion controls
 
 The invitation uses calligraphy names, original rose engraving, textured paper edges, ivory photograph mats, and a burgundy K&T seal. Photograph and decoration references remain together in `app/wedding-content.ts`.
 
-CSS entrances and one-time section reveals respect reduced-motion preferences. Content is visible without JavaScript, and native story, FAQ, entourage, and mobile navigation disclosures remain usable. Companion add/remove controls require JavaScript.
+Staged CSS entrances and one-time section reveals respect reduced-motion preferences. Motion for React adds gentle, section-relative botanical and photograph depth. Content is visible without JavaScript, and native story, FAQ, entourage, and mobile navigation disclosures remain usable. Companion add/remove controls require JavaScript.
 
 Artwork prompts, saved paths, design timing, and verification notes are in [docs/design-assets.md](docs/design-assets.md).
+
+Shared motion settings and browser verification are documented in [docs/scroll-motion.md](docs/scroll-motion.md).

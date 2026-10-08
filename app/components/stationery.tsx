@@ -1,19 +1,24 @@
 import Image from "next/image";
+import { ParallaxLayer } from "./motion-scene";
+import { Reveal } from "./reveal";
 import { wedding } from "../wedding-content";
 
-export function Botanical({ className = "", eager = false }: { className?: string; eager?: boolean }) {
+export function Botanical({ className = "", eager = false, parallax = false }: { className?: string; eager?: boolean; parallax?: boolean }) {
+  const artwork = <Image src={wedding.decorations.botanical} alt="" width={1312} height={1199}
+    sizes="(max-width: 767px) 190px, 380px" loading={eager ? "eager" : "lazy"} />;
+  const illustration = <span className="botanical-orientation"><Reveal as="span" variant="fade">{artwork}</Reveal></span>;
   return (
     <span className={`botanical ${className}`} aria-hidden="true">
-      <Image src={wedding.decorations.botanical} alt="" width={1312} height={1199}
-        sizes="(max-width: 767px) 190px, 380px" loading={eager ? "eager" : "lazy"} />
+      {parallax ? <ParallaxLayer preset="botanical" as="span">{illustration}</ParallaxLayer> : illustration}
     </span>
   );
 }
 
-export function WaxSeal({ className = "" }: { className?: string }) {
+export function WaxSeal({ className = "", reveal = false }: { className?: string; reveal?: boolean }) {
+  const artwork = <Image src={wedding.decorations.seal} alt="" width={1254} height={1254} sizes="100px" />;
   return (
     <span className={`wax-seal ${className}`} aria-hidden="true">
-      <Image src={wedding.decorations.seal} alt="" width={1254} height={1254} sizes="100px" />
+      {reveal ? <Reveal as="span" variant="fade" order={2}>{artwork}</Reveal> : artwork}
     </span>
   );
 }

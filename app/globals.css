@@ -51,8 +51,7 @@ p { text-wrap: pretty; }
 .edge-from-ivory { color: var(--ivory); }
 .botanical { position: absolute; display: block; width: 300px; pointer-events: none; user-select: none; }
 .botanical img { width: 100%; height: auto; }
-.section > .botanical { transition: opacity 650ms var(--ease-paper); }
-.section:has(.reveal[data-reveal="pending"]) > .botanical { opacity: 0; }
+
 .botanical--light { filter: grayscale(1) invert(1); mix-blend-mode: screen; opacity: .55; }
 .wax-seal { display: block; width: 100px; pointer-events: none; user-select: none; }
 .wax-seal img { display: block; width: 100%; height: auto; }
@@ -89,9 +88,11 @@ p { text-wrap: pretty; }
 .button:hover:not(:disabled) { background: var(--wax); border-color: var(--wax); transform: translateY(-2px); }
 .hero-rsvp { margin-top: 20px; min-width: 138px; font-family: var(--font-cormorant), Georgia, serif; font-size: 1rem; letter-spacing: .2em; }
 .invitation-seal { position: absolute; right: -25px; bottom: -18px; width: 105px; z-index: 4; transform: rotate(-12deg); }
-.hero-flowers-left { width: 355px; top: -14px; left: -55px; transform: rotate(-34deg); z-index: 0; }
-.hero-flowers-right { width: 300px; bottom: 40px; right: -35px; transform: rotate(18deg) scaleX(-1); z-index: 0; }
-.photo-mat { --photo-tilt: 2deg; padding: 18px 18px 14px; transform: rotate(var(--photo-tilt)); }
+.hero-flowers-left { width: 355px; top: -14px; left: -55px;  z-index: 0; }
+.hero-flowers-left .botanical-orientation { transform: rotate(-34deg); }
+.hero-flowers-right { width: 300px; bottom: 40px; right: -35px;  z-index: 0; }
+.hero-flowers-right .botanical-orientation { transform: rotate(18deg) scaleX(-1); }
+.photo-mat { padding: 18px 18px 14px; transform: rotate(var(--photo-tilt, 2deg)); }
 .hero-photograph { width: 100%; max-width: 420px; margin-left: -16px; margin-top: 28px; z-index: 1; }
 .photo-mat figcaption { font-family: var(--font-pinyon), cursive; text-align: center; font-size: 1.8rem; line-height: 1.4; margin-top: 12px; color: var(--muted); }
 .photo-panel { position: relative; width: 100%; aspect-ratio: 4 / 5; background: var(--photo-paper); overflow: hidden; }
@@ -107,8 +108,9 @@ p { text-wrap: pretty; }
 .story-photograph { --photo-tilt: -2deg; max-width: 390px; }
 .story-photograph figcaption { font-size: 1.65rem; }
 .story-copy { padding: 40px; z-index: 1; }
+.story-copy .ornament { margin-left: 0; }
 .story-copy h2 { font-size: clamp(2.5rem, 3.5vw, 3.4rem); margin-top: 16px; }
-.story-copy > p:not(.eyebrow), .story-more p { font-size: 1rem; color: var(--muted); line-height: 1.85; margin-bottom: 18px; }
+.story-narrative p, .story-more p { font-size: 1rem; color: var(--muted); line-height: 1.85; margin-bottom: 18px; }
 .story-more { margin-top: 16px; }
 .story-more summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 48px; border-bottom: 1px solid var(--border); font-size: .8125rem; cursor: pointer; padding-block: 10px; }
 .story-more > div { padding-top: 20px; }
@@ -137,7 +139,8 @@ details[open] > summary .disclosure-mark::after { transform: rotate(0); }
 .schedule-content h2 { margin-top: 16px; }
 .schedule .eyebrow, .schedule-date { color: var(--dark-muted); }
 .schedule-date { font-family: var(--font-cormorant), Georgia, serif; font-size: 1.125rem; margin-top: 14px; }
-.schedule-flowers { width: 320px; left: -110px; bottom: -75px; transform: rotate(-35deg); z-index: 0; }
+.schedule-flowers { width: 320px; left: -110px; bottom: -75px;  z-index: 0; }
+.schedule-flowers .botanical-orientation { transform: rotate(-35deg); }
 .schedule-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; padding: 0; margin: 46px 0 0; }
 .schedule-list li { padding: 8px 20px; border-left: 1px solid var(--dark-border); }
 .schedule-list li:first-child { border-left: 0; }
@@ -154,12 +157,14 @@ details[open] > summary .disclosure-mark::after { transform: rotate(0); }
 .entourage-names { list-style: none; margin: 0; padding: 16px 0 0; font-family: var(--font-cormorant), Georgia, serif; font-size: 1.4rem; line-height: 1.65; }
 .entourage-names li { overflow-wrap: anywhere; }
 .entourage-names--long { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 20px; font-size: 1.2rem; }
-.program-flowers { width: 150px; bottom: -30px; right: -36px; opacity: .55; z-index: 0; transform: rotate(25deg); }
+.program-flowers { width: 150px; bottom: -30px; right: -36px; opacity: .55; z-index: 0;  }
+.program-flowers .botanical-orientation { transform: rotate(25deg); }
 .gifts { padding-top: 24px; }
 .gift-content { max-width: 700px; text-align: center; padding: 46px 56px 55px; }
 .gift-content h2 { margin-top: 16px; }
 .gift-content > p:last-of-type { font-size: 1rem; color: var(--muted); line-height: 1.9; }
-.gift-flowers { width: 135px; top: -54px; left: -65px; transform: rotate(-40deg); }
+.gift-flowers { width: 135px; top: -54px; left: -65px;  }
+.gift-flowers .botanical-orientation { transform: rotate(-40deg); }
 .gift-seal { position: absolute; width: 92px; bottom: -32px; right: 26px; transform: rotate(9deg); }
 .faq-card { display: grid; grid-template-columns: .75fr 1.25fr; gap: 52px; padding: 48px; }
 .faq-list { border-top: 1px solid var(--border); }
@@ -202,8 +207,10 @@ details[open] > summary .disclosure-mark::after { transform: rotate(0); }
 .footer-monogram { font-family: var(--font-cormorant), Georgia, serif; font-size: 3.5rem; line-height: 1; font-style: italic; letter-spacing: -.08em; }
 .footer-message { font-family: var(--font-cormorant), Georgia, serif; font-size: clamp(2.5rem, 4vw, 3.5rem); line-height: 1.2; }
 .footer-date { color: var(--dark-muted); font-size: .75rem; margin-top: 24px; }
-.footer-flowers-left { width: 280px; left: -100px; top: 32px; transform: rotate(-28deg); }
-.footer-flowers-right { width: 280px; right: -95px; top: 32px; transform: rotate(28deg) scaleX(-1); }
+.footer-flowers-left { width: 280px; left: -100px; top: 32px;  }
+.footer-flowers-left .botanical-orientation { transform: rotate(-28deg); }
+.footer-flowers-right { width: 280px; right: -95px; top: 32px;  }
+.footer-flowers-right .botanical-orientation { transform: rotate(28deg) scaleX(-1); }
 .footer-contacts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 700px; margin: 44px auto; gap: 36px; }
 .footer-contacts h2 { font-size: 1.65rem; line-height: 1.4; letter-spacing: 0; }
 .footer-contacts a { display: inline-flex; align-items: center; min-height: 44px; font-size: .875rem; color: var(--dark-muted); overflow-wrap: anywhere; }
@@ -213,19 +220,22 @@ details[open] > summary .disclosure-mark::after { transform: rotate(0); }
 .footer-bottom > span { overflow-wrap: anywhere; }
 .footer-bottom a { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; flex-shrink: 0; }
 
-.reveal { transition: opacity 650ms var(--ease-paper), transform 650ms var(--ease-paper); }
-.reveal[data-reveal="pending"] { opacity: 0; transform: translateY(14px); }
-.reveal[data-reveal="shown"] { opacity: 1; transform: translateY(0); }
+.reveal { transition: opacity var(--reveal-duration) var(--reveal-easing), translate var(--reveal-duration) var(--reveal-easing); transition-delay: var(--reveal-delay); }
+span.reveal, .parallax-layer, .botanical-orientation { display: block; }
+.reveal[data-reveal="immediate"] { transition: none; opacity: 1; translate: none; }
+.reveal[data-reveal="immediate"] .photo-mat { animation: none; }
+.reveal[data-reveal="pending"] { opacity: 0; translate: 0 var(--reveal-lift); }
+.reveal[data-reveal="shown"] { opacity: 1; translate: 0 0; }
 @keyframes invitation-entry { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes ink-entry { from { opacity: 0; } to { opacity: 1; } }
-@keyframes photograph-entry { from { opacity: 0; transform: translateY(12px) rotate(0deg); } to { opacity: 1; transform: translateY(0) rotate(var(--photo-tilt)); } }
+@keyframes photograph-entry { from { opacity: 0; transform: translateY(12px) rotate(0deg); } to { opacity: 1; transform: translateY(0) rotate(var(--photo-tilt, 2deg)); } }
 @media (prefers-reduced-motion: no-preference) {
   .invitation-card { animation: invitation-entry 700ms var(--ease-paper) both; }
   .couple-names { animation: ink-entry 500ms ease 100ms both; }
   .invitation-details { animation: ink-entry 450ms ease 250ms both; }
-  .hero-photograph { animation: photograph-entry 800ms var(--ease-paper) 100ms both; }
+  .hero-photo-mat { animation: photograph-entry 800ms var(--ease-paper) 100ms both; }
   .hero-scene > .botanical { animation: ink-entry 850ms ease both; }
-  .reveal[data-reveal="shown"] .photo-mat { animation: photograph-entry 800ms var(--ease-paper) both; }
+  .story-photograph[data-reveal="shown"] .photo-mat { animation: photograph-entry 800ms var(--ease-paper) both; }
 }
 @media (max-width: 1023px) {
   .hero-scene { padding-inline: 35px; }
@@ -266,7 +276,8 @@ details[open] > summary .disclosure-mark::after { transform: rotate(0); }
   .wedding-date { font-size: 1.125rem; }
   .hero-venue { font-size: 1.125rem; }
   .invitation-seal { width: 88px; right: -14px; bottom: -18px; }
-  .hero-flowers-left { width: 195px; left: -50px; top: -10px; transform: rotate(-26deg); }
+  .hero-flowers-left { width: 195px; left: -50px; top: -10px;  }
+.hero-flowers-left .botanical-orientation { transform: rotate(-26deg); }
   .hero-flowers-right { width: 170px; right: -50px; bottom: 62px; opacity: .7; }
   .hero-photograph { --photo-tilt: 1deg; width: min(94%, 380px); justify-self: center; margin: 0; }
   .photo-mat { padding: 13px 13px 12px; }
@@ -290,7 +301,7 @@ details[open] > summary .disclosure-mark::after { transform: rotate(0); }
   .entourage-program { padding: 32px 26px 48px; }
   .entourage-grid { grid-template-columns: 1fr; gap: 0; margin-top: 26px; }
   .entourage-group { border-bottom: 1px solid var(--border); }
-  .entourage-group:first-child { border-top: 1px solid var(--border); }
+  .entourage-grid > .reveal:first-child .entourage-group { border-top: 1px solid var(--border); }
   .entourage-group summary { border-bottom: 0; min-height: 62px; font-size: 1.25rem; }
   .entourage-names { padding-top: 0; padding-bottom: 22px; }
   .entourage-names--long { font-size: 1.125rem; gap: 8px 14px; }
@@ -319,5 +330,6 @@ details[open] > summary .disclosure-mark::after { transform: rotate(0); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .reveal[data-reveal] { opacity: 1; transform: none; }
+  .reveal[data-reveal] { opacity: 1; translate: none; }
+  .parallax-layer { transform: none !important; }
 }
