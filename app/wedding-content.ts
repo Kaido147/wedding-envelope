@@ -5,6 +5,15 @@ export type WeddingPhoto = {
   label: string;
 };
 
+export type GalleryPhoto = WeddingPhoto & {
+  role: "feature" | "supportPortrait" | "supportLandscape";
+};
+
+export type GalleryFolio = {
+  id: string;
+  photos: [GalleryPhoto, GalleryPhoto, GalleryPhoto];
+};
+
 // Put replacement images in public/photos and set src to "/photos/your-file.jpg".
 // Photo containers keep their proportions regardless of the replacement image.
 export const wedding = {
@@ -37,20 +46,75 @@ export const wedding = {
     grain: "/decor/paper-grain.svg",
     edge: "/decor/paper-edge.svg",
   },
+  music: {
+    src: "/audio/erik-santos-i-never-go.mp3",
+    title: "I Never Go — Erik Santos",
+    volume: 0.35,
+  },
   photos: {
     portrait: {
-      src: null,
+      src: "/photos/web/hero.jpg",
       alt: "Portrait of Kian and Trisha together",
       position: "center",
       label: "Couple portrait",
     },
     story: {
-      src: null,
+      src: "/photos/web/story.jpg",
       alt: "Kian and Trisha sharing a moment together",
       position: "center",
       label: "Our story photograph",
     },
   } satisfies Record<string, WeddingPhoto>,
+  galleryFolios: [
+    {
+      id: "01",
+      photos: [
+        { src: "/photos/web/folio-01-feature.jpg", alt: "Kian and Trisha together during their prenup session", position: "center", label: "Folio one feature", role: "feature" },
+        { src: "/photos/web/folio-01-support-a.jpg", alt: "Kian and Trisha sharing a quiet moment outdoors", position: "center", label: "Folio one supporting photograph", role: "supportLandscape" },
+        { src: "/photos/web/folio-01-support-b.jpg", alt: "Kian and Trisha walking together", position: "center", label: "Folio one supporting photograph", role: "supportLandscape" },
+      ],
+    },
+    {
+      id: "02",
+      photos: [
+        { src: "/photos/web/folio-02-feature.jpg", alt: "Kian and Trisha in an elegant outdoor portrait", position: "center", label: "Folio two feature", role: "feature" },
+        { src: "/photos/web/folio-02-support-a.jpg", alt: "Trisha and Kian smiling together", position: "center", label: "Folio two supporting photograph", role: "supportPortrait" },
+        { src: "/photos/web/folio-02-support-b.jpg", alt: "A close prenup portrait of Kian and Trisha", position: "center", label: "Folio two supporting photograph", role: "supportPortrait" },
+      ],
+    },
+    {
+      id: "03",
+      photos: [
+        { src: "/photos/web/folio-03-feature.jpg", alt: "Kian and Trisha sharing a joyful prenup moment", position: "center", label: "Folio three feature", role: "feature" },
+        { src: "/photos/web/folio-03-support-a.jpg", alt: "Kian and Trisha in a romantic portrait", position: "center", label: "Folio three supporting photograph", role: "supportPortrait" },
+        { src: "/photos/web/folio-03-support-b.jpg", alt: "Kian and Trisha enjoying time together", position: "center", label: "Folio three supporting photograph", role: "supportPortrait" },
+      ],
+    },
+    {
+      id: "04",
+      photos: [
+        { src: "/photos/web/folio-04-feature.jpg", alt: "Kian and Trisha in a timeless portrait", position: "center", label: "Folio four feature", role: "feature" },
+        { src: "/photos/web/folio-04-support-a.jpg", alt: "Kian and Trisha framed by their prenup setting", position: "center", label: "Folio four supporting photograph", role: "supportLandscape" },
+        { src: "/photos/web/folio-04-support-b.jpg", alt: "Kian and Trisha close together", position: "center", label: "Folio four supporting photograph", role: "supportPortrait" },
+      ],
+    },
+    {
+      id: "05",
+      photos: [
+        { src: "/photos/web/folio-05-feature.jpg", alt: "Kian and Trisha in a cinematic outdoor scene", position: "center", label: "Folio five feature", role: "feature" },
+        { src: "/photos/web/folio-05-support-a.jpg", alt: "A wide prenup photograph of Kian and Trisha", position: "center", label: "Folio five supporting photograph", role: "supportLandscape" },
+        { src: "/photos/web/folio-05-support-b.jpg", alt: "Kian and Trisha sharing a loving portrait", position: "center", label: "Folio five supporting photograph", role: "supportPortrait" },
+      ],
+    },
+    {
+      id: "06",
+      photos: [
+        { src: "/photos/web/folio-06-feature.jpg", alt: "Kian and Trisha in their closing prenup portrait", position: "center", label: "Folio six feature", role: "feature" },
+        { src: "/photos/web/folio-06-support-a.jpg", alt: "Kian and Trisha walking through their prenup setting", position: "center", label: "Folio six supporting photograph", role: "supportLandscape" },
+        { src: "/photos/web/folio-06-support-b.jpg", alt: "Kian and Trisha celebrating their love together", position: "center", label: "Folio six supporting photograph", role: "supportPortrait" },
+      ],
+    },
+  ] satisfies GalleryFolio[],
   story: [
     "It all began with a strict officer and a playful staff member, brought together by simple errands, countless reports, and letters that unknowingly drew two hearts closer.",
     "From coffee prepared with love to long rides from Katipunan to Montalban and Novaliches, every little effort became a beautiful reminder that love is about choosing each other, every single day.",

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope, Pinyon_Script } from "next/font/google";
+import { BackgroundMusic } from "./components/background-music";
+import { wedding } from "./wedding-content";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -31,7 +33,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${manrope.variable} ${cormorant.variable} ${pinyon.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <BackgroundMusic {...wedding.music} />
+      </body>
     </html>
   );
 }

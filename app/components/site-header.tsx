@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 const links = [
   { href: "#our-story", label: "Our story" },
+  { href: "#gallery", label: "Gallery" },
   { href: "#the-day", label: "The day" },
   { href: "#rsvp", label: "RSVP" },
 ];
@@ -35,8 +36,8 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="header-inner container">
         <nav className="desktop-nav" aria-label="Main navigation">
-          <div className="nav-left"><a href={links[0].href}>{links[0].label}</a></div>
-          <div className="nav-right">{links.slice(1).map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}</div>
+          <div className="nav-left">{links.slice(0, 2).map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}</div>
+          <div className="nav-right">{links.slice(2).map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}</div>
         </nav>
         <a href="#top" className="brand" aria-label="Kian and Trisha, back to invitation">K<span>&</span>T</a>
         <details className="mobile-menu" ref={menu}>

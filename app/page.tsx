@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { Entourage } from "./components/entourage";
+import { GalleryFolio } from "./components/gallery-folio";
 import { PhotoPanel } from "./components/photo-panel";
 import { RsvpPreview } from "./components/rsvp-preview";
 import { MotionScene, ParallaxLayer } from "./components/motion-scene";
@@ -7,11 +8,18 @@ import { Reveal } from "./components/reveal";
 import { SiteHeader } from "./components/site-header";
 import { Botanical, Ornament, PaperEdge, WaxSeal } from "./components/stationery";
 import { wedding } from "./wedding-content";
+import { invitationMotion } from "./motion-config";
 
 export default function Home() {
   const paperStyle = {
     "--paper-grain": `url("${wedding.decorations.grain}")`,
     "--paper-edge": `url("${wedding.decorations.edge}")`,
+    "--paper-lift-desktop": `${invitationMotion.lift.desktop}px`,
+    "--paper-lift-mobile": `${invitationMotion.lift.mobile}px`,
+    "--photo-settle-desktop": `${invitationMotion.photoSettle.desktop}deg`,
+    "--photo-settle-mobile": `${invitationMotion.photoSettle.mobile}deg`,
+    "--scroll-duration": `${invitationMotion.duration}ms`,
+    "--scroll-easing": invitationMotion.easing,
   } as CSSProperties;
 
   return (
@@ -78,6 +86,23 @@ export default function Home() {
           </div>
           <Botanical className="story-flowers" parallax />
         </MotionScene>
+
+        <section className="gallery section" id="gallery" aria-labelledby="gallery-title">
+          <PaperEdge className="edge-from-ivory" />
+          <div className="container">
+            <Reveal className="gallery-introduction centered">
+              <p className="eyebrow">A visual love letter</p>
+              <h2 id="gallery-title">The moments that<br /><em>led us here.</em></h2>
+              <Ornament />
+              <p>A collection of little moments, held close.</p>
+            </Reveal>
+            <GalleryFolio folios={wedding.galleryFolios} viewerPhotos={[wedding.photos.portrait, wedding.photos.story, ...wedding.galleryFolios.flatMap((folio) => folio.photos)]} />
+            <Reveal className="gallery-closing" variant="fade">
+              <WaxSeal />
+              <a href="#the-day">And now, for the day ahead <span aria-hidden="true">↓</span></a>
+            </Reveal>
+          </div>
+        </section>
 
         <section className="day section" id="the-day" aria-labelledby="day-title">
           <PaperEdge className="edge-from-ivory" />
@@ -185,7 +210,7 @@ export default function Home() {
 
         <section className="rsvp section" id="rsvp" aria-labelledby="rsvp-title">
           <div className="container">
-            <Reveal className="section-heading centered">
+            <Reveal className="section-heading centered" variant="fade">
               <p className="eyebrow">Join the celebration</p>
               <h2 id="rsvp-title">Kindly <em>RSVP.</em></h2>
               <Ornament />
