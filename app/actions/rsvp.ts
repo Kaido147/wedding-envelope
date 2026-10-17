@@ -53,8 +53,11 @@ export async function submitRsvp(_previousState: RsvpActionState, formData: Form
       message: bringingPlusOne ? "Your attendance for two has been confirmed." : "Your attendance has been confirmed.",
     };
   } catch (error) {
+    const errorDetails = error instanceof Error
+      ? { name: error.name, message: error.message }
+      : error;
     console.error("RSVP submission failed", {
-      error: error instanceof Error ? error.message : String(error),
+      error: errorDetails,
       hasSupabaseUrl: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
       hasSupabaseServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
     });
