@@ -39,7 +39,6 @@ export async function submitRsvp(_previousState: RsvpActionState, formData: Form
       normalized_guest_name: guestName.toLocaleLowerCase(),
       bringing_plus_one: bringingPlusOne,
       companion_name: bringingPlusOne && companionName ? companionName : null,
-      party_size: bringingPlusOne ? 2 : 1,
       status: "confirmed",
     });
 
