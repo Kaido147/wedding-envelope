@@ -1,75 +1,71 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useActionState, useEffect, useId, useRef, useState } from "react";
 
+import { submitRsvp, type RsvpActionState } from "../actions/rsvp";
 import { Reveal } from "./reveal";
 
-export function RsvpPreview({ deadline }: { deadline: string }) {
+const initialState: RsvpActionState = { status: "idle", message: "" };
+
+export type ConfirmedGuest = {
+  name: string;
+  bringingPlusOne: boolean;
+};
+
+export function RsvpPreview({ deadline, guests }: { deadline: string; guests: ConfirmedGuest[] }) {
   const prefix = useId();
-  const nextId = useRef(0);
-  const addButton = useRef<HTMLButtonElement>(null);
-  const [companions, setCompanions] = useState<{ id: number; name: string }[]>([]);
+  const companionInput = useRef<HTMLInputElement>(null);
+  const [bringingPlusOne, setBringingPlusOne] = useState(false);
+  const [companionName, setCompanionName] = useState("");
+  const [state, formAction, pending] = useActionState(submitRsvp, initialState);
 
-  function addCompanion() {
-    const id = nextId.current++;
-    setCompanions((current) => [...current, { id, name: "" }]);
-    requestAnimationFrame(() => document.getElementById(`${prefix}-companion-${id}`)?.focus());
-  }
-
-  function removeCompanion(id: number) {
-    setCompanions((current) => current.filter((companion) => companion.id !== id));
-    addButton.current?.focus();
-  }
+  useEffect(() => {
+    if (bringingPlusOne) companionInput.current?.focus();
+  }, [bringingPlusOne]);
 
   return (
     <div className="rsvp-layout">
-      <Reveal as="form" variant="fade" order={1} className="rsvp-form paper-card" onSubmit={(event) => event.preventDefault()} aria-label="Attendance confirmation" aria-describedby={`${prefix}-notice`}>
+      <Reveal as="form" variant="fade" order={1} className="rsvp-form paper-card" action={formAction} aria-label="Attendance confirmation" aria-describedby={`${prefix}-notice ${prefix}-status`}>
         <div className="form-heading">
           <span className="eyebrow">A seat at our table</span>
           <h3>We hope you can join us.</h3>
           <p>Please respond by {deadline}.</p>
         </div>
+
         <label htmlFor={`${prefix}-name`}>Your full name</label>
-        <input id={`${prefix}-name`} name="guest-name" autoComplete="name" placeholder="First and last name" maxLength={100} />
-        <div className="companions-heading">
-          <span>Invited companions <span className="optional">(optional)</span></span>
-          <p>Only include people named in your invitation.</p>
+        <input id={`${prefix}-name`} name="guestName" autoComplete="name" placeholder="First and last name" maxLength={100} required aria-invalid={state.fieldErrors?.guestName ? true : undefined} aria-describedby={state.fieldErrors?.guestName ? `${prefix}-name-error` : undefined} />
+        {state.fieldErrors?.guestName && <p className="form-error" id={`${prefix}-name-error`}>{state.fieldErrors.guestName}</p>}
+
+        <div className="plus-one-choice">
+          <input id={`${prefix}-plus-one`} name="bringingPlusOne" type="checkbox" checked={bringingPlusOne} onChange={(event) => {
+            setBringingPlusOne(event.target.checked);
+            if (!event.target.checked) setCompanionName("");
+          }} aria-controls={`${prefix}-companion-field`} />
+          <label htmlFor={`${prefix}-plus-one`}>I&apos;ll be bringing a +1</label>
         </div>
-        <div className="companions-list">
-          {companions.map((companion, index) => (
-            <div className="companion-field" key={companion.id}>
-              <label htmlFor={`${prefix}-companion-${companion.id}`}>Companion {index + 1}</label>
-              <div className="companion-input-row">
-                <input
-                  id={`${prefix}-companion-${companion.id}`}
-                  name={`companion-${companion.id}`}
-                  autoComplete="off"
-                  placeholder="First and last name"
-                  maxLength={100}
-                  value={companion.name}
-                  onChange={(event) => setCompanions((current) => current.map((item) => item.id === companion.id ? { ...item, name: event.target.value } : item))}
-                />
-                <button type="button" className="remove-companion" onClick={() => removeCompanion(companion.id)} aria-label={`Remove companion ${index + 1}`}>×</button>
-              </div>
-            </div>
-          ))}
+        <p className="plus-one-note">You may bring one guest. Their name can be added now or later.</p>
+
+        <div id={`${prefix}-companion-field`} className={`companion-field ${bringingPlusOne ? "is-visible" : ""}`} aria-hidden={!bringingPlusOne}>
+          <label htmlFor={`${prefix}-companion`}>Companion&apos;s name <span className="optional">(optional)</span></label>
+          <input ref={companionInput} id={`${prefix}-companion`} name="companionName" autoComplete="off" placeholder="First and last name" maxLength={100} disabled={!bringingPlusOne} value={companionName} onChange={(event) => setCompanionName(event.target.value)} />
+          {state.fieldErrors?.companionName && <p className="form-error">{state.fieldErrors.companionName}</p>}
         </div>
-        <button ref={addButton} type="button" className="add-companion" onClick={addCompanion}>
-          <span aria-hidden="true">+</span> Add a companion
-        </button>
-        <p className="rsvp-notice" id={`${prefix}-notice`}>Online confirmation will be available here soon. For now, please contact us to confirm your attendance.</p>
-        <button type="submit" className="button button--disabled" disabled>Confirm attendance <span aria-hidden="true">↗</span></button>
+
+        <p className="rsvp-notice" id={`${prefix}-notice`}>Please respond by {deadline}.</p>
+        <p className={`form-status form-status--${state.status}`} id={`${prefix}-status`} aria-live="polite">{state.message}</p>
+        <button type="submit" className="button" disabled={pending}>{pending ? "Confirming…" : "Confirm attendance"} <span aria-hidden="true">↗</span></button>
       </Reveal>
+
       <Reveal as="aside" variant="fade" order={2} className="guest-list paper-card" aria-labelledby="guest-list-title">
         <span className="eyebrow">Celebrating together</span>
         <h3 id="guest-list-title">Our guests</h3>
         <p>Looking forward to sharing this day with you.</p>
         <div className="guest-list-columns" aria-hidden="true"><span>Guest name</span><span>Party size</span></div>
-        <div className="guest-list-empty">
+        {guests.length > 0 ? <ul className="confirmed-guests">{guests.map((guest) => <li key={guest.name}><span>{guest.name}</span><span>{guest.bringingPlusOne ? "+1" : "1"}</span></li>)}</ul> : <div className="guest-list-empty">
           <span className="empty-monogram" aria-hidden="true">K&T</span>
           <p>Confirmed guests will appear here.</p>
           <span>A celebration made special by you.</span>
-        </div>
+        </div>}
       </Reveal>
     </div>
   );

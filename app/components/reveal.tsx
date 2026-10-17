@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties, type HTMLAttributes } from "react";
+import { useEffect, useRef, type CSSProperties, type FormHTMLAttributes, type HTMLAttributes } from "react";
 import { invitationMotion } from "../motion-config";
 
-type RevealProps = HTMLAttributes<HTMLElement> & {
+type RevealProps = HTMLAttributes<HTMLElement> & Pick<FormHTMLAttributes<HTMLFormElement>, "action"> & {
   as?: "div" | "span" | "article" | "li" | "form" | "aside";
   variant?: "lift" | "fade";
   order?: number;

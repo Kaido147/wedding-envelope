@@ -24,9 +24,16 @@ Both photographs use a fixed 4:5 container. Real photographs replace the neutral
 
 Palette, typography, spacing, and responsive styles are in `app/globals.css`.
 
-## Current phase
+## RSVP setup
 
-Navigation, story expansion, entourage disclosures, FAQs, and companion controls work. RSVP submission is intentionally disabled; nothing is saved or emailed. The confirmed guest list is an empty layout, with no fabricated guests. The envelope entrance and live RSVP integration are reserved for a later phase.
+The RSVP form stores confirmations in Supabase PostgreSQL. In the Supabase SQL editor, run [supabase/migrations/001_create_rsvps.sql](supabase/migrations/001_create_rsvps.sql), then set these server environment variables locally and in the deployment host:
+
+```sh
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+The service-role key is server-only and must never be prefixed with `NEXT_PUBLIC_`. RSVP records are managed in the Supabase dashboard. Each invited guest may confirm for themselves and one optional +1; companion names are not shown in the public guest list.
 
 ## Botanical stationery design
 
