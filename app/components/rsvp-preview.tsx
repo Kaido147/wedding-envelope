@@ -18,7 +18,7 @@ export function RsvpPreview({ responseMessage, guests }: { responseMessage: stri
 
   return (
     <div className="rsvp-layout">
-      <Reveal as="form" variant="fade" order={1} className="rsvp-form paper-card" action={formAction} aria-label="Attendance confirmation" aria-describedby={`${prefix}-notice ${prefix}-status`}>
+      <Reveal as="form" variant="bloom" order={1} className="rsvp-form paper-card" action={formAction} aria-label="Attendance confirmation" aria-describedby={`${prefix}-notice ${prefix}-status`}>
         <div className="form-heading">
           <span className="eyebrow">A seat at our table</span>
           <h3>We hope you can join us.</h3>
@@ -34,7 +34,7 @@ export function RsvpPreview({ responseMessage, guests }: { responseMessage: stri
         <button type="submit" className="button" disabled={pending}>{pending ? "Confirming…" : "Confirm attendance"} <span aria-hidden="true">↗</span></button>
       </Reveal>
 
-      <Reveal as="aside" variant="fade" order={2} className="guest-list paper-card" aria-labelledby="guest-list-title">
+      <Reveal as="aside" variant="bloom" order={2} className="guest-list paper-card" aria-labelledby="guest-list-title">
         <span className="eyebrow">Celebrating together</span>
         <div className="guest-list-summary">
           <h3 id="guest-list-title">Our guests</h3>

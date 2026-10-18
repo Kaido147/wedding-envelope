@@ -285,23 +285,32 @@ details[open] > summary .disclosure-mark::after { transform: rotate(0); }
 
 .site-wrapper { --paper-lift: var(--paper-lift-desktop); --photo-settle: var(--photo-settle-desktop); }
 /* Reveals must not become scroll anchors that counteract their entrance or restoration. */
-.reveal { --reveal-lift: var(--reveal-lift-desktop); overflow-anchor: none; transition: opacity var(--reveal-duration) var(--reveal-easing), translate var(--reveal-duration) var(--reveal-easing); transition-delay: var(--reveal-delay); }
+.reveal { --reveal-lift: var(--reveal-lift-desktop); overflow-anchor: none; transition: opacity var(--reveal-duration) var(--reveal-easing), translate var(--reveal-duration) var(--reveal-easing), scale var(--reveal-duration) var(--reveal-easing); transition-delay: var(--reveal-delay); }
 span.reveal, .parallax-layer, .botanical-orientation { display: block; }
-.reveal[data-reveal="immediate"] { transition: none; opacity: 1; translate: none; }
-.reveal[data-reveal="immediate"] .photo-mat { animation: none; }
-.reveal[data-reveal="pending"] { opacity: 0; translate: 0 var(--reveal-lift); }
-.reveal[data-reveal="shown"] { opacity: 1; translate: 0 0; }
+.reveal[data-reveal="immediate"] { transition: none; opacity: 1; translate: none; scale: 1; }
+.reveal[data-reveal="immediate"] .photo-mat, .reveal[data-reveal="immediate"].folio-print--feature button { animation: none; }
+.reveal[data-reveal="pending"] { opacity: 0; translate: 0 var(--reveal-lift); scale: var(--reveal-scale, 1); }
+.reveal[data-reveal="shown"] { opacity: 1; translate: 0 0; scale: 1; }
+.reveal[data-reveal-variant="bloom"] { transform-origin: center bottom; }
+.reveal[data-reveal-variant="bloom"] .ornament { transform-origin: center; transition: opacity 520ms var(--reveal-easing), scale 520ms var(--reveal-easing); transition-delay: calc(var(--reveal-delay) + 160ms); }
+.reveal[data-reveal-variant="bloom"][data-reveal="pending"] .ornament { opacity: 0; scale: .76; }
+.reveal[data-reveal-variant="bloom"][data-reveal="shown"] .ornament { opacity: 1; scale: 1; }
+.reveal[data-reveal-variant="bloom"] > .botanical { transition: opacity 650ms var(--reveal-easing), translate 650ms var(--reveal-easing); transition-delay: calc(var(--reveal-delay) + 180ms); }
+.reveal[data-reveal-variant="bloom"][data-reveal="pending"] > .botanical { opacity: 0; translate: 0 20px; }
+.reveal[data-reveal-variant="bloom"][data-reveal="shown"] > .botanical { opacity: 1; translate: 0 0; }
 @keyframes invitation-entry { from { opacity: 0; translate: 0 var(--paper-lift); } to { opacity: 1; translate: 0 0; } }
 @keyframes ink-entry { from { opacity: 0; } to { opacity: 1; } }
 @keyframes photograph-settle { from { transform: rotate(calc(var(--photo-tilt, 2deg) - var(--photo-settle))); } to { transform: rotate(var(--photo-tilt, 2deg)); } }
+@keyframes feature-photo-settle { from { scale: .94; } to { scale: 1; } }
 @media (prefers-reduced-motion: no-preference) {
-  .invitation-card { animation: invitation-entry 700ms var(--ease-paper) both; }
-  .couple-names { animation: ink-entry 500ms ease 100ms both; }
-  .invitation-details { animation: ink-entry 450ms ease 250ms both; }
-  .hero-photograph { animation: invitation-entry 800ms var(--ease-paper) 100ms both; }
+  .invitation-card { animation: invitation-entry 800ms var(--ease-paper) both; }
+  .couple-names { animation: ink-entry 600ms ease 120ms both; }
+  .invitation-details { animation: ink-entry 550ms ease 300ms both; }
+  .hero-photograph { animation: invitation-entry 950ms var(--ease-paper) 120ms both; }
   .hero-photo-mat { animation: photograph-settle var(--scroll-duration) var(--scroll-easing) 100ms both; }
   .hero-scene > .botanical { animation: ink-entry 850ms ease both; }
   .story-photograph[data-reveal="shown"] .photo-mat { animation: photograph-settle var(--scroll-duration) var(--scroll-easing) both; }
+  .folio-print--feature.reveal[data-reveal="shown"] button { animation: feature-photo-settle var(--scroll-duration) var(--scroll-easing) both; transform-origin: center; }
 }
 @media (max-width: 767px) {
   .site-wrapper { --paper-lift: var(--paper-lift-mobile); --photo-settle: var(--photo-settle-mobile); }
@@ -431,6 +440,6 @@ span.reveal, .parallax-layer, .botanical-orientation { display: block; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .reveal[data-reveal] { opacity: 1; translate: none; }
+  .reveal[data-reveal] { opacity: 1; translate: none; scale: 1; }
   .parallax-layer { transform: none !important; }
 }

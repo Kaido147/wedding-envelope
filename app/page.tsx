@@ -35,8 +35,8 @@ export default async function Home() {
       <main id="main">
         <MotionScene className="hero" id="top" aria-labelledby="invitation-title">
           <div className="hero-scene container">
-            <Botanical className="hero-flowers-left" parallax eager />
-            <Botanical className="hero-flowers-right" parallax eager />
+            <Botanical className="hero-flowers-left" parallax parallaxDirection={-1} eager />
+            <Botanical className="hero-flowers-right" parallax parallaxDirection={1} eager />
             <div className="invitation-card paper-card">
               <span className="invitation-border" aria-hidden="true" />
               <p className="invitation-family">Together with their families</p>
@@ -55,7 +55,7 @@ export default async function Home() {
               </div>
               <WaxSeal className="invitation-seal" />
             </div>
-            <div className="hero-photograph"><ParallaxLayer preset="photo">
+            <div className="hero-photograph"><ParallaxLayer preset="photo" direction={1}>
               <figure className="photo-mat paper-card hero-photo-mat">
                 <PhotoPanel photo={wedding.photos.portrait} />
                 <figcaption>Our forever begins here.</figcaption>
@@ -68,12 +68,12 @@ export default async function Home() {
           <PaperEdge className="edge-from-paper" />
           <div className="container">
             <div className="story-layout">
-              <Reveal className="story-photograph"><ParallaxLayer preset="photo">
+              <Reveal className="story-photograph"><ParallaxLayer preset="photo" direction={1}>
                 <figure className="photo-mat paper-card">
                   <PhotoPanel photo={wedding.photos.story} variant="story" />
                   <figcaption>The little moments. The greatest journey.</figcaption>
                 </figure></ParallaxLayer></Reveal>
-              <Reveal className="story-copy paper-card" order={1}>
+              <Reveal className="story-copy paper-card" variant="bloom" order={1}>
                 <Reveal variant="fade" order={2}>
                   <p className="eyebrow">Our love story</p>
                   <h2 id="story-title">Choosing each other,<br /><em>every single day.</em></h2>
@@ -91,13 +91,13 @@ export default async function Home() {
               </Reveal>
             </div>
           </div>
-          <Botanical className="story-flowers" parallax />
+          <Botanical className="story-flowers" parallax parallaxDirection={-1} />
         </MotionScene>
 
         <section className="gallery section" id="gallery" aria-labelledby="gallery-title">
           <PaperEdge className="edge-from-ivory" />
           <div className="container">
-            <Reveal className="gallery-introduction centered">
+            <Reveal className="gallery-introduction centered" variant="bloom">
               <p className="eyebrow">A visual love letter</p>
               <h2 id="gallery-title">The moments that<br /><em>led us here.</em></h2>
               <Ornament />
@@ -114,28 +114,28 @@ export default async function Home() {
         <section className="day section" id="the-day" aria-labelledby="day-title">
           <PaperEdge className="edge-from-ivory" />
           <div className="container">
-            <Reveal className="section-heading centered">
+            <Reveal className="section-heading centered" variant="bloom">
               <p className="eyebrow">The wedding day</p>
               <h2 id="day-title">One day.<br /><em>A lifetime together.</em></h2>
               <Ornament />
               <p>We cannot wait to celebrate with our favorite people.</p>
             </Reveal>
             <div className="day-grid">
-              <Reveal as="article" className="day-detail paper-card" order={1}>
+              <Reveal as="article" className="day-detail paper-card" variant="bloom" order={1}>
                 <Ornament /><h3>The ceremony</h3>
                 <p className="detail-emphasis">{wedding.venue.name}</p>
                 <p>{wedding.venue.location}</p>
                 <p className="detail-description">{wedding.venue.ceremony}</p>
                 <span className="detail-meta">Arrive at 4:00 PM<br />Ceremony at 5:00 PM</span>
               </Reveal>
-              <Reveal as="article" className="day-detail paper-card" order={2}>
+              <Reveal as="article" className="day-detail paper-card" variant="bloom" order={2}>
                 <Ornament /><h3>The celebration</h3>
                 <p className="detail-emphasis">Dinner, laughter & love</p>
                 <p>{wedding.venue.name}</p>
                 <p className="detail-description">{wedding.venue.reception}</p>
                 <span className="detail-meta">Dinner begins at 7:00 PM</span>
               </Reveal>
-              <Reveal as="article" className="day-detail paper-card" order={3}>
+              <Reveal as="article" className="day-detail paper-card" variant="bloom" order={3}>
                 <Ornament /><h3>The dress code</h3>
                 <p className="detail-emphasis">{wedding.attire}</p>
                 <div className="attire-swatch"><span aria-hidden="true" /> Timeless elegance</div>
@@ -148,9 +148,9 @@ export default async function Home() {
 
         <MotionScene className="schedule section" aria-labelledby="schedule-title">
           <PaperEdge className="edge-from-paper" />
-          <Botanical className="schedule-flowers botanical--light" parallax />
+          <Botanical className="schedule-flowers botanical--light" parallax parallaxDirection={-1} />
           <div className="container schedule-content">
-            <Reveal variant="fade">
+            <Reveal variant="bloom">
               <p className="eyebrow">An evening to remember</p>
               <h2 id="schedule-title">The day we say <em>I do.</em></h2>
               <Ornament />
@@ -158,7 +158,7 @@ export default async function Home() {
             </Reveal>
             <ol className="schedule-list">
               {wedding.schedule.map((event, index) => (
-                <Reveal as="li" key={event.time} order={index + 1}>
+                <Reveal as="li" key={event.time} variant="bloom" order={index + 1}>
                   <span className="schedule-time">{event.time}<small>{event.period}</small></span>
                   <h3>{event.name}</h3><p>{event.note}</p>
                 </Reveal>
@@ -170,7 +170,7 @@ export default async function Home() {
         <section className="entourage section" aria-labelledby="entourage-title">
           <div className="container">
             <div className="entourage-program paper-card">
-              <Reveal className="section-heading centered">
+              <Reveal className="section-heading centered" variant="bloom">
                 <p className="eyebrow">The entourage</p>
                 <h2 id="entourage-title">The people<br /><em>by our side.</em></h2>
                 <Ornament />
@@ -183,7 +183,7 @@ export default async function Home() {
         </section>
 
         <section className="gifts section" aria-labelledby="gifts-title">
-          <Reveal className="container gift-content paper-card">
+          <Reveal className="container gift-content paper-card" variant="bloom">
             <Botanical className="gift-flowers" />
             <p className="eyebrow">A little note on gifts</p>
             <h2 id="gifts-title">Your presence,<br /><em>our greatest gift.</em></h2>
@@ -196,7 +196,7 @@ export default async function Home() {
 
         <section className="faq section" aria-labelledby="faq-title">
           <div className="container">
-            <Reveal className="faq-card paper-card" variant="fade">
+            <Reveal className="faq-card paper-card" variant="bloom">
               <div className="section-heading">
                 <p className="eyebrow">Guest information</p>
                 <h2 id="faq-title">A few things<br /><em>to know.</em></h2>
@@ -217,7 +217,7 @@ export default async function Home() {
 
         <section className="rsvp section" id="rsvp" aria-labelledby="rsvp-title">
           <div className="container">
-            <Reveal className="section-heading centered rsvp-heading" variant="fade">
+            <Reveal className="section-heading centered rsvp-heading" variant="bloom">
               <p className="eyebrow">Join the celebration</p>
               <h2 id="rsvp-title">Kindly <em>RSVP.</em></h2>
               <Ornament />
@@ -230,27 +230,27 @@ export default async function Home() {
 
       <MotionScene as="footer" className="site-footer section" id="contact">
         <PaperEdge className="edge-from-ivory" />
-        <Botanical className="footer-flowers-left botanical--light" parallax />
-        <Botanical className="footer-flowers-right botanical--light" parallax />
+        <Botanical className="footer-flowers-left botanical--light" parallax parallaxDirection={-1} />
+        <Botanical className="footer-flowers-right botanical--light" parallax parallaxDirection={1} />
         <div className="container footer-content">
-          <Reveal variant="fade">
+          <Reveal variant="bloom">
             <span className="footer-monogram" aria-hidden="true">{wedding.couple.monogram}</span>
             <Ornament />
           </Reveal>
-          <Reveal variant="fade" order={1}>
+          <Reveal variant="bloom" order={1}>
             <p className="footer-message">From two separate dreams<br />to one <em>forever.</em></p>
             <p className="footer-date">{wedding.date.display}</p>
           </Reveal>
           <div className="footer-contacts">
             {wedding.contacts.map((contact, index) => (
-              <Reveal key={contact.name} variant="fade" order={index + 2}>
+              <Reveal key={contact.name} variant="bloom" order={index + 2}>
                 <h2>{contact.name}</h2>
                 <a href={`mailto:${contact.email}`}>{contact.email}</a>
                 <p>{contact.phoneDisplay}</p>
               </Reveal>
             ))}
           </div>
-          <Reveal className="footer-bottom" variant="fade" order={3}><span>{wedding.hashtag}</span><a href="#top">Back to invitation <span aria-hidden="true">↑</span></a></Reveal>
+          <Reveal className="footer-bottom" variant="bloom" order={3}><span>{wedding.hashtag}</span><a href="#top">Back to invitation <span aria-hidden="true">↑</span></a></Reveal>
         </div>
       </MotionScene>
     </div>

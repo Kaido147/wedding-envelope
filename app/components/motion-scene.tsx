@@ -30,14 +30,14 @@ export function MotionScene({ as = "section", children, ...props }: HTMLAttribut
   </Tag>;
 }
 
-export function ParallaxLayer({ preset, children, className = "", as = "div" }: { preset: keyof typeof invitationMotion.travel; children: ReactNode; className?: string; as?: "div" | "span" }) {
+export function ParallaxLayer({ preset, direction = 1, children, className = "", as = "div" }: { preset: keyof typeof invitationMotion.travel; direction?: 1 | -1; children: ReactNode; className?: string; as?: "div" | "span" }) {
   const scene = useContext(SceneContext);
   const fallback = useMotionValue(0);
   const travel = invitationMotion.travel[preset];
   const distance = scene?.media === 2 ? travel.desktop : travel.mobile;
-  const y = useTransform(scene?.progress ?? fallback, [0, 1], [-distance / 2, distance / 2], { clamp: true });
+  const y = useTransform(scene?.progress ?? fallback, [0, 1], [-distance * direction / 2, distance * direction / 2], { clamp: true });
   const Tag = as === "span" ? motion.span : motion.div;
 
-  return <Tag className={`parallax-layer ${className}`} data-parallax={preset}
+  return <Tag className={`parallax-layer ${className}`} data-parallax={preset} data-parallax-direction={direction}
     style={{ y: scene?.media ? y : 0, willChange: scene?.media && scene.visible ? "transform" : undefined }}>{children}</Tag>;
 }
