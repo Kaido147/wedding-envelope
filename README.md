@@ -33,13 +33,13 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
-The service-role key is server-only and must never be prefixed with `NEXT_PUBLIC_`. RSVP records are managed in the Supabase dashboard. Each invited guest may confirm for themselves and one optional +1; companion names are not shown in the public guest list.
+The service-role key is server-only and must never be prefixed with `NEXT_PUBLIC_`. RSVP records are managed in the Supabase dashboard. Each invited guest confirms their own attendance and appears by name in the public guest list.
 
 ## Botanical stationery design
 
 The invitation uses calligraphy names, original rose engraving, textured paper edges, ivory photograph mats, and a burgundy K&T seal. Photograph and decoration references remain together in `app/wedding-content.ts`.
 
-Staged CSS entrances and one-time section reveals respect reduced-motion preferences. Motion for React adds gentle, section-relative botanical and photograph depth. Content is visible without JavaScript, and native story, FAQ, entourage, and mobile navigation disclosures remain usable. Companion add/remove controls require JavaScript.
+Staged CSS entrances and one-time section reveals respect reduced-motion preferences. Motion for React adds gentle, section-relative botanical and photograph depth. Content is visible without JavaScript, and native story, FAQ, entourage, and mobile navigation disclosures remain usable.
 
 Artwork prompts, saved paths, design timing, and verification notes are in [docs/design-assets.md](docs/design-assets.md).
 

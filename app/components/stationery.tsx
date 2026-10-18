@@ -3,13 +3,13 @@ import { ParallaxLayer } from "./motion-scene";
 import { Reveal } from "./reveal";
 import { wedding } from "../wedding-content";
 
-export function Botanical({ className = "", eager = false, parallax = false }: { className?: string; eager?: boolean; parallax?: boolean }) {
+export function Botanical({ className = "", eager = false, parallax = false, parallaxDirection = 1 }: { className?: string; eager?: boolean; parallax?: boolean; parallaxDirection?: 1 | -1 }) {
   const artwork = <Image src={wedding.decorations.botanical} alt="" width={1312} height={1199}
     sizes="(max-width: 767px) 190px, 380px" loading={eager ? "eager" : "lazy"} />;
   const illustration = <span className="botanical-orientation"><Reveal as="span" variant="fade">{artwork}</Reveal></span>;
   return (
     <span className={`botanical ${className}`} aria-hidden="true">
-      {parallax ? <ParallaxLayer preset="botanical" as="span">{illustration}</ParallaxLayer> : illustration}
+      {parallax ? <ParallaxLayer preset="botanical" direction={parallaxDirection} as="span">{illustration}</ParallaxLayer> : illustration}
     </span>
   );
 }

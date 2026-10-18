@@ -5,7 +5,7 @@ import { invitationMotion } from "../motion-config";
 
 type RevealProps = HTMLAttributes<HTMLElement> & Pick<FormHTMLAttributes<HTMLFormElement>, "action"> & {
   as?: "div" | "span" | "article" | "li" | "form" | "aside";
-  variant?: "lift" | "fade";
+  variant?: "lift" | "fade" | "bloom";
   order?: number;
 };
 
@@ -73,8 +73,9 @@ export function Reveal({ children, className = "", as = "div", variant = "lift",
 
   const motionStyle = {
     "--reveal-duration": `${invitationMotion.duration}ms`,
-    "--reveal-lift-desktop": `${variant === "fade" ? 0 : invitationMotion.lift.desktop}px`,
-    "--reveal-lift-mobile": `${variant === "fade" ? 0 : invitationMotion.lift.mobile}px`,
+    "--reveal-lift-desktop": `${variant === "fade" ? 0 : variant === "bloom" ? 48 : invitationMotion.lift.desktop}px`,
+    "--reveal-lift-mobile": `${variant === "fade" ? 0 : variant === "bloom" ? 30 : invitationMotion.lift.mobile}px`,
+    "--reveal-scale": variant === "bloom" ? ".96" : "1",
     "--reveal-delay": `${Math.min(Math.max(order, 0) * invitationMotion.stagger, invitationMotion.maxDelay)}ms`,
     "--reveal-easing": invitationMotion.easing,
     ...style,
@@ -82,5 +83,5 @@ export function Reveal({ children, className = "", as = "div", variant = "lift",
 
   const Tag = as;
   function assignRef(element: HTMLElement | null) { ref.current = element; }
-  return <Tag {...props} ref={assignRef} className={`reveal ${className}`} style={motionStyle}>{children}</Tag>;
+  return <Tag {...props} ref={assignRef} className={`reveal ${className}`} data-reveal-variant={variant} style={motionStyle}>{children}</Tag>;
 }

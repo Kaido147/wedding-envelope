@@ -1,15 +1,15 @@
 export const invitationMotion = {
   desktopQuery: "(min-width: 768px)",
   reducedQuery: "(prefers-reduced-motion: reduce)",
-  duration: 800,
-  lift: { desktop: 32, mobile: 24 },
+  duration: 950,
+  lift: { desktop: 56, mobile: 36 },
   photoSettle: { desktop: 2, mobile: 1 },
-  stagger: 90,
-  maxDelay: 270,
+  stagger: 130,
+  maxDelay: 390,
   easing: "cubic-bezier(.22, .61, .36, 1)",
-  entryInset: 0.25,
+  entryInset: 0.32,
   travel: {
-    botanical: { desktop: 48, mobile: 20 },
-    photo: { desktop: 20, mobile: 10 },
+    botanical: { desktop: 120, mobile: 64 },
+    photo: { desktop: 64, mobile: 34 },
   },
 } as const;
