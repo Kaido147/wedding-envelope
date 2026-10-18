@@ -4,6 +4,10 @@ import { useSyncExternalStore } from "react";
 
 import { Reveal } from "./reveal";
 
+type EntourageGroup =
+  | { readonly role: string; readonly names: readonly string[]; readonly columns?: never }
+  | { readonly role: string; readonly columns: { readonly left: readonly string[]; readonly right: readonly string[] }; readonly names?: never };
+
 const desktopQuery = "(min-width: 768px)";
 function subscribe(callback: () => void) {
   const query = window.matchMedia(desktopQuery);
@@ -18,7 +22,7 @@ function getServerSnapshot() {
 }
 
 export function Entourage({ groups }: {
-  groups: readonly { readonly role: string; readonly names: readonly string[] }[];
+  groups: readonly EntourageGroup[];
 }) {
   const desktop = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   return (
@@ -30,9 +34,20 @@ export function Entourage({ groups }: {
               <span>{group.role}</span>
               <span className="disclosure-mark" aria-hidden="true" />
             </summary>
-            <ul className={group.names.length > 2 ? "entourage-names entourage-names--long" : "entourage-names"}>
-              {group.names.map((name) => <li key={name}>{name}</li>)}
-            </ul>
+            {"columns" in group && group.columns ? (
+              <div className="entourage-columns">
+                <ul className="entourage-names" aria-label={`Women ${group.role.toLowerCase()}`}>
+                  {group.columns.left.map((name) => <li key={name}>{name}</li>)}
+                </ul>
+                <ul className="entourage-names" aria-label={`Men ${group.role.toLowerCase()}`}>
+                  {group.columns.right.map((name) => <li key={name}>{name}</li>)}
+                </ul>
+              </div>
+            ) : (
+              <ul className={group.names.length > 2 ? "entourage-names entourage-names--long" : "entourage-names"}>
+                {group.names.map((name) => <li key={name}>{name}</li>)}
+              </ul>
+            )}
           </details>
         </Reveal>
       ))}

@@ -50,7 +50,8 @@ export default async function Home() {
                 <Ornament />
                 <time className="wedding-date" dateTime={wedding.date.iso}>{wedding.date.weekday}, {wedding.date.display}</time>
                 <p className="hero-venue">{wedding.venue.name}<span>{wedding.venue.location}</span></p>
-                <a href="#rsvp" className="button hero-rsvp">RSVP <span className="sr-only">— visit attendance details</span></a>
+                <a href="#rsvp" className="button hero-rsvp">Confirm attendance <span aria-hidden="true">↗</span></a>
+                <p className="hero-rsvp-deadline">{wedding.rsvpResponseMessage}</p>
               </div>
               <WaxSeal className="invitation-seal" />
             </div>
@@ -102,7 +103,7 @@ export default async function Home() {
               <Ornament />
               <p>A collection of little moments, held close.</p>
             </Reveal>
-            <GalleryFolio folios={wedding.galleryFolios} viewerPhotos={[wedding.photos.portrait, wedding.photos.story, ...wedding.galleryFolios.flatMap((folio) => folio.photos)]} />
+            <GalleryFolio folios={wedding.galleryFolios} viewerPhotos={wedding.galleryPhotos} />
             <Reveal className="gallery-closing" variant="fade">
               <WaxSeal />
               <a href="#the-day">And now, for the day ahead <span aria-hidden="true">↓</span></a>
@@ -189,7 +190,7 @@ export default async function Home() {
             <Ornament />
             <p>{wedding.giftMessage}</p>
             <Reveal as="span" className="note-signature" variant="fade" order={1}>With all our love</Reveal>
-            <WaxSeal className="gift-seal" reveal />
+            <WaxSeal className="gift-seal" />
           </Reveal>
         </section>
 
@@ -216,13 +217,13 @@ export default async function Home() {
 
         <section className="rsvp section" id="rsvp" aria-labelledby="rsvp-title">
           <div className="container">
-            <Reveal className="section-heading centered" variant="fade">
+            <Reveal className="section-heading centered rsvp-heading" variant="fade">
               <p className="eyebrow">Join the celebration</p>
               <h2 id="rsvp-title">Kindly <em>RSVP.</em></h2>
               <Ornament />
               <p>Our day would not be the same without you.</p>
             </Reveal>
-            <RsvpPreview deadline={wedding.rsvpDeadline} guests={confirmedGuests} />
+            <RsvpPreview responseMessage={wedding.rsvpResponseMessage} guests={confirmedGuests} />
           </div>
         </section>
       </main>

@@ -6,15 +6,15 @@ import type { GalleryFolio as GalleryFolioData, WeddingPhoto } from "../wedding-
 import { Reveal } from "./reveal";
 
 type GalleryFolioProps = {
-  folios: GalleryFolioData[];
-  viewerPhotos: WeddingPhoto[];
+  folios: readonly GalleryFolioData[];
+  viewerPhotos: readonly WeddingPhoto[];
 };
 
 const swipeDistance = 48;
 
 export function GalleryFolio({ folios, viewerPhotos }: GalleryFolioProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [activeFolio, setActiveFolio] = useState(0);
+  const [activePhoto, setActivePhoto] = useState(0);
   const [announcement, setAnnouncement] = useState("");
   const opener = useRef<HTMLButtonElement | null>(null);
   const closeButton = useRef<HTMLButtonElement | null>(null);
@@ -37,14 +37,14 @@ export function GalleryFolio({ folios, viewerPhotos }: GalleryFolioProps) {
     setSelectedIndex((current) => current === null ? null : (current + direction + viewerPhotos.length) % viewerPhotos.length);
   }, [viewerPhotos.length]);
 
-  const selectFolio = useCallback((index: number, announce = false) => {
-    const nextIndex = (index + folios.length) % folios.length;
+  const selectPhoto = useCallback((index: number, announce = false) => {
+    const nextIndex = (index + viewerPhotos.length) % viewerPhotos.length;
     const slide = rail.current?.children.item(nextIndex) as HTMLElement | null;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     slide?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "nearest", inline: "center" });
-    setActiveFolio(nextIndex);
-    if (announce) setAnnouncement(`Folio ${String(nextIndex + 1).padStart(2, "0")} of ${String(folios.length).padStart(2, "0")}`);
-  }, [folios.length]);
+    setActivePhoto(nextIndex);
+    if (announce) setAnnouncement(`Photograph ${String(nextIndex + 1).padStart(2, "0")} of ${String(viewerPhotos.length).padStart(2, "0")}`);
+  }, [viewerPhotos.length]);
 
   useEffect(() => {
     const element = rail.current;
@@ -52,28 +52,28 @@ export function GalleryFolio({ folios, viewerPhotos }: GalleryFolioProps) {
     const railElement = element;
     let frame: number | undefined;
 
-    function updateActiveFolio() {
+    function updateActivePhoto() {
       frame = undefined;
       const firstSlide = railElement.children.item(0) as HTMLElement | null;
       if (!firstSlide) return;
       const slideWidth = firstSlide.getBoundingClientRect().width;
       const gap = Number.parseFloat(getComputedStyle(railElement).gap) || 0;
-      const index = Math.max(0, Math.min(folios.length - 1, Math.round(railElement.scrollLeft / (slideWidth + gap))));
-      setActiveFolio((current) => current === index ? current : index);
+      const index = Math.max(0, Math.min(viewerPhotos.length - 1, Math.round(railElement.scrollLeft / (slideWidth + gap))));
+      setActivePhoto((current) => current === index ? current : index);
     }
 
     function onScroll() {
-      if (frame === undefined) frame = requestAnimationFrame(updateActiveFolio);
+      if (frame === undefined) frame = requestAnimationFrame(updateActivePhoto);
     }
 
     railElement.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", updateActiveFolio);
+    window.addEventListener("resize", updateActivePhoto);
     return () => {
       railElement.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", updateActiveFolio);
+      window.removeEventListener("resize", updateActivePhoto);
       if (frame !== undefined) cancelAnimationFrame(frame);
     };
-  }, [folios.length]);
+  }, [viewerPhotos.length]);
 
   useEffect(() => {
     if (selectedIndex === null) return;
@@ -121,7 +121,7 @@ export function GalleryFolio({ folios, viewerPhotos }: GalleryFolioProps) {
           <article className={`folio-spread folio-spread--${folioIndex % 2 === 0 ? "left" : "right"}`} key={folio.id} aria-label={`Prenup folio ${folio.id}`}>
             <span className="folio-marker" aria-hidden="true">{folio.id}<i />06</span>
             {folio.photos.map((photo, imageIndex) => {
-              const viewerIndex = 2 + folioIndex * 3 + imageIndex;
+              const viewerIndex = viewerPhotos.findIndex((viewerPhoto) => viewerPhoto.id === photo.id);
               return (
                 <Reveal className={`folio-print folio-print--${photo.role}`} order={imageIndex} key={photo.src}>
                   <button type="button" onClick={(event) => show(viewerIndex, event.currentTarget)} aria-label={`Open photograph ${viewerIndex + 1} of ${viewerPhotos.length}: ${photo.alt}`}>
@@ -137,17 +137,15 @@ export function GalleryFolio({ folios, viewerPhotos }: GalleryFolioProps) {
       <section className="folio-mobile" aria-label="Prenup photograph gallery">
         <p className="folio-mobile__cue" id="folio-mobile-instructions">Swipe to explore <span aria-hidden="true">→</span></p>
         <div className="folio-mobile__topline">
-          <span aria-hidden="true">{String(activeFolio + 1).padStart(2, "0")} <i /> {String(folios.length).padStart(2, "0")}</span>
+            <span aria-hidden="true">{String(activePhoto + 1).padStart(2, "0")} <i /> {String(viewerPhotos.length).padStart(2, "0")}</span>
           <p className="sr-only" aria-live="polite">{announcement}</p>
         </div>
         <div className="folio-mobile__rail" ref={rail} aria-describedby="folio-mobile-instructions">
-          {folios.map((folio, index) => {
-            const photo = folio.photos[0];
-            const viewerIndex = 2 + index * 3;
+          {viewerPhotos.map((photo, index) => {
             return (
-              <article className="folio-mobile__slide" key={folio.id} aria-label={`Folio ${folio.id} of ${folios.length}`}>
-                <span className="folio-mobile__marker" aria-hidden="true">{folio.id}</span>
-                <button type="button" onFocus={() => { setActiveFolio(index); setAnnouncement(`Folio ${String(index + 1).padStart(2, "0")} of ${String(folios.length).padStart(2, "0")}`); }} onClick={(event) => show(viewerIndex, event.currentTarget)} aria-label={`Open folio ${folio.id}: photograph ${viewerIndex + 1} of ${viewerPhotos.length}`}>
+              <article className="folio-mobile__slide" key={photo.id} aria-label={`Photograph ${index + 1} of ${viewerPhotos.length}`}>
+                <span className="folio-mobile__marker" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <button type="button" onFocus={() => { setActivePhoto(index); setAnnouncement(`Photograph ${String(index + 1).padStart(2, "0")} of ${String(viewerPhotos.length).padStart(2, "0")}`); }} onClick={(event) => show(index, event.currentTarget)} aria-label={`Open photograph ${index + 1} of ${viewerPhotos.length}: ${photo.alt}`}>
                   <Image src={photo.src!} alt={photo.alt} fill sizes="(max-width: 767px) 82vw, 0px" loading="lazy" style={{ objectFit: "cover", objectPosition: photo.position }} />
                 </button>
               </article>
@@ -155,10 +153,9 @@ export function GalleryFolio({ folios, viewerPhotos }: GalleryFolioProps) {
           })}
         </div>
         <div className="folio-mobile__navigation" aria-label="Folio navigation">
-          <button type="button" onClick={() => selectFolio(activeFolio - 1, true)} aria-label="Previous folio"><span aria-hidden="true">←</span> Previous</button>
-          <button type="button" onClick={() => selectFolio(activeFolio + 1, true)} aria-label="Next folio">Next <span aria-hidden="true">→</span></button>
+          <button type="button" onClick={() => selectPhoto(activePhoto - 1, true)} aria-label="Previous photograph"><span aria-hidden="true">←</span> Previous</button>
+          <button type="button" onClick={() => selectPhoto(activePhoto + 1, true)} aria-label="Next photograph">Next <span aria-hidden="true">→</span></button>
         </div>
-        <button className="folio-mobile__all" type="button" onClick={(event) => show(0, event.currentTarget)}>View all {viewerPhotos.length} photographs <span aria-hidden="true">↗</span></button>
       </section>
 
       <noscript>
