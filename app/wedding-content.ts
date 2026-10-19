@@ -153,8 +153,8 @@ export const wedding = {
     { role: "Parents of the groom", names: ["Cary Arbolado", "Maria Ann Arbolado"] },
     { role: "Parents of the bride", names: ["Wilfredo Geli", "Chona Geli"] },
     { role: "Principal sponsors", columns: {
-      left: ["Mrs. Jo Baarde", "Mrs. Rea Villaruel", "Mrs. Evangeline Ferrer", "Mrs. Annisa Vergonia", "Mrs. Dulce Ilagas", "Mrs. Jovelyn Dimatulac", "Mary Ann Arbolado"],
-      right: ["Mr. Amor Ferrer", "Mr. Rico Oregano", "Mr. Emiliano Gonzales", "Mr. Rogelio Uy", "Mr. Allan Ilagas", "Mr. Danilo Geli", "Jay Cris Pertez"],
+      left: ["Mrs. Jo Baarde", "Mrs. Rea Villaruel", "Mrs. Evangeline Ferrer", "Mrs. Annisa Vergonia", "Mrs. Dulce Ilagas", "Mrs. Jovelyn Dimatulac", "Mrs. Mary Ann Arbolado"],
+      right: ["Mr. Amor Ferrer", "Mr. Rico Oregano", "Mr. Emiliano Gonzales", "Mr. Rogelio Uy", "Mr. Allan Ilagas", "Mr. Danilo Geli", "Mr. Jay Cris Pertez"],
     } },
     { role: "Secondary sponsors", columns: {
       left: ["Kristina Casandra Manuel", "Ruzell Mae Geli", "Sheryl Jane Baclay", "Bernadeth Cruz", "Riobeth Ortiz"],
