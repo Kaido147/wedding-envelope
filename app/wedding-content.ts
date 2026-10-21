@@ -158,7 +158,7 @@ export const wedding = {
     } },
     { role: "Secondary sponsors", columns: {
       left: ["Kristina Casandra Manuel", "Ruzell Mae Geli", "Sheryl Jane Baclay", "Bernadeth Cruz", "Riobeth Ortiz"],
-      right: ["John Patrick Geli", "Ian Requerque", "Jonel De Leon", "Jaymark Gepollio", "Jm Prande"],
+      right: ["John Patrick Geli", "Ian Requerque", "Jonel De Leon", "Jaymark Gepollo", "Jm Prande"],
     } },
     { role: "Best man", names: ["Carl Arbolado", "Ronn Arbolado"] },
     { role: "Maid of honor", names: ["Princes Mae Geli"] },
